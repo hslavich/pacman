@@ -2,6 +2,7 @@ package ar.edu.unq.pacman.scene;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,8 +49,18 @@ public class MapDescriptor {
 		int height = this.path.getHeight();
 		
 		Graphics2D graphics = this.background.createGraphics();
-		graphics.setPaint(Color.black);
+		graphics.setPaint(new Color(23, 23, 82));
 		graphics.fillRect(0, 0, width, height);
+		
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j ++) {
+				final int pixel = this.path.getRGB(i, j);
+				if (((pixel >> 24) & 0xff) != 0) {
+					graphics.setPaint(Color.black);
+					graphics.draw(new Rectangle2D.Float(i - 15, j - 15, 30, 30));
+				}
+			}
+		}
 	}
 	
 	private BufferedImage readImage(String basePath, String file) throws IOException {
@@ -57,7 +68,7 @@ public class MapDescriptor {
 	}
 	
 	public Vector2D getPacmanInitialPos() {
-		return new Vector2D(250, 330);
+		return new Vector2D(250, 260);
 	}
 	
 	public Boolean isAccessible(int x, int y) {
