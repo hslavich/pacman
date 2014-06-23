@@ -1,0 +1,55 @@
+package ar.edu.unq.pacman;
+
+import java.awt.Dimension;
+import java.io.IOException;
+
+import ar.edu.unq.americana.Game;
+import ar.edu.unq.americana.configs.Property;
+import ar.edu.unq.pacman.scene.GameMap;
+
+public class PacmanGame extends Game {
+
+	@Property("game.width")
+	private static int WIDTH;
+	@Property("game.height")
+	private static int HEIGHT;
+
+	private Dimension dimension;
+
+	@Override
+	protected String[] properties() {
+		return new String[] { "pacman.properties" };
+	}
+
+	@Override
+	protected void initializeResources() {
+	}
+
+	@Override
+	protected void setUpScenes() {
+		this.startGame();
+	}
+
+	public void startGame() {
+		try {
+			GameMap map = new GameMap("level1");
+			this.setCurrentScene(map);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public Dimension getDisplaySize() {
+		if (this.dimension == null) {
+			this.dimension = new Dimension(WIDTH, HEIGHT);
+		}
+		return this.dimension;
+	}
+
+	@Override
+	public String getTitle() {
+		return "Pacman";
+	}
+}
