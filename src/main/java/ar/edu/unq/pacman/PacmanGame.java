@@ -6,6 +6,7 @@ import java.io.IOException;
 import ar.edu.unq.americana.Game;
 import ar.edu.unq.americana.configs.Property;
 import ar.edu.unq.pacman.scene.GameMap;
+import ar.edu.unq.pacman.tiling.MapProvider;
 
 public class PacmanGame extends Game {
 
@@ -31,13 +32,7 @@ public class PacmanGame extends Game {
 	}
 
 	public void startGame() {
-		try {
-			GameMap map = new GameMap("level1");
-			this.setCurrentScene(map);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
+		this.setCurrentScene(MapProvider.getMap("level1"));
 	}
 
 	@Override
