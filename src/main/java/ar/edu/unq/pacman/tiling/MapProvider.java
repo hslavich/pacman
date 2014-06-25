@@ -13,10 +13,6 @@ public class MapProvider {
 			BufferedImage img = ImageIO.read(ClassLoader.getSystemResource("maps/" + levelName + ".png"));
 			int width = img.getWidth();
 			int height = img.getHeight();
-			
-			System.out.println(width);
-			System.out.println(height);
-			
 			map = new GameMap(height, width);
 			
 			for (int i = 0; i < width; i++) {

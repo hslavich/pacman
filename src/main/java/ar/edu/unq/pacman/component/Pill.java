@@ -15,8 +15,8 @@ public class Pill extends GameComponent<GameMap> {
 	private static int SIZE;
 	
 	public Pill(int row, int column) {
-		this.setX(column * GameMap.CELL_SIZE);
-		this.setY(row * GameMap.CELL_SIZE);
+		this.setX(column * GameMap.CELL_SIZE + (GameMap.CELL_SIZE / 2));
+		this.setY(row * GameMap.CELL_SIZE + (GameMap.CELL_SIZE / 2));
 		this.setAppearance(new Rectangle(Color.orange, SIZE, SIZE));
 	}
 	

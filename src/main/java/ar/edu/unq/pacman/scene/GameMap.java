@@ -120,6 +120,8 @@ public class GameMap extends GameScene implements ITileMapScene {
 
 	@Override
 	public void addTileBackground(TileMapBackground tileMapBackGround) {
+		tileMapBackGround.setX(CELL_SIZE / 2);
+		tileMapBackGround.setY(CELL_SIZE / 2);
 		this.addComponent(tileMapBackGround);
 	}
 }

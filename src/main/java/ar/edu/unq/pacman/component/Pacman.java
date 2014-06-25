@@ -37,8 +37,8 @@ public class Pacman extends PositionableComponent<GameMap>{
 	@Override
 	public void onSceneActivated() {
 		super.onSceneActivated();
-		this.setX(this.getColumn() * GameMap.CELL_SIZE);
-		this.setY(this.getRow() * GameMap.CELL_SIZE);
+		this.setX(this.getColumn() * GameMap.CELL_SIZE + (GameMap.CELL_SIZE / 2));
+		this.setY(this.getRow() * GameMap.CELL_SIZE + (GameMap.CELL_SIZE / 2));
 	}
 	
 	@Events.Keyboard(type = EventType.BeingHold, key = Key.D)
@@ -79,7 +79,7 @@ public class Pacman extends PositionableComponent<GameMap>{
 	
 	@Events.Update
 	public void update(final double delta) {
-		double distance = delta * SPEED;
+		double distance = SPEED * delta;
 		this.updateDirection();
 		this.move(distance);
 	}
@@ -95,6 +95,14 @@ public class Pacman extends PositionableComponent<GameMap>{
 		}
 	}
 	
+	private void center() {
+		double dx = this.getColumn() * GameMap.CELL_SIZE + (GameMap.CELL_SIZE / 2);
+		double dy = this.getRow() * GameMap.CELL_SIZE + (GameMap.CELL_SIZE / 2);
+		
+		this.setX(dx);
+		this.setY(dy);
+	}
+
 	protected boolean canMove() {
 		return this.getScene().isAccessible(this.getRow() + (int) this.nextDirection.getY(),
 				this.getColumn() + (int) this.nextDirection.getX());
@@ -114,8 +122,9 @@ public class Pacman extends PositionableComponent<GameMap>{
 	
 	protected void updateOffset(double distance) {
 		this.offset += distance;
-		if (this.offset >= GameMap.CELL_SIZE) {
+		if (this.offset >= GameMap.CELL_SIZE - 1) {
 			this.offset = 0;
+			this.center();
 		}
 	}
 }
