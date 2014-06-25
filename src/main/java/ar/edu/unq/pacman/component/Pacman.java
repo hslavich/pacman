@@ -101,8 +101,6 @@ public class Pacman extends PositionableComponent<GameMap>{
 	}
 	
 	protected void fixCell() {
-		System.out.println((int)this.dir.getX());
-		System.out.println((int)this.dir.getY());
 		this.fixColumn((int) this.dir.getX());
 		this.fixRow((int) this.dir.getY());
 	}

@@ -1,6 +1,7 @@
 package ar.edu.unq.pacman.scene;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.unq.americana.GameScene;
@@ -13,12 +14,14 @@ import ar.edu.unq.americana.scenes.components.tilemap.BaseTileMapResourceProvide
 import ar.edu.unq.americana.scenes.components.tilemap.ITileMapResourceProvider;
 import ar.edu.unq.americana.scenes.components.tilemap.ITileMapScene;
 import ar.edu.unq.americana.scenes.components.tilemap.TileMapBackground;
-import ar.edu.unq.pacman.component.Dot;
+import ar.edu.unq.pacman.component.Pill;
 import ar.edu.unq.pacman.component.Pacman;
 
 public class GameMap extends GameScene implements ITileMapScene {
 	
 	private Pacman pacman;
+	
+	private List<Pill> pills;
 	
 	private BaseTileMap tileMap;
 	
@@ -42,6 +45,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 		this.path = new boolean[rows][columns];
 		this.rows = rows;
 		this.columns = columns;
+		this.pills = new ArrayList<Pill>();
 		initializeTileMap();
 	}
 	
@@ -60,7 +64,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 		this.pacman = new Pacman(this.pacmanInitRow, this.pacmanInitColumn);
 		this.addComponent(this.pacman);
 		
-//		this.addDots();
+		this.addComponents(this.pills);
 	}
 	
 	public void setPacmanInitialPos(int row, int column) {
@@ -71,9 +75,13 @@ public class GameMap extends GameScene implements ITileMapScene {
 	public Pacman getPacman() {
 		return pacman;
 	}
+	
+	public void addPill(Pill pill) {
+		this.pills.add(pill);
+	}
 
-	public void destroyDot(Dot dot) {
-		dot.destroy();
+	public void destroyPill(Pill pill) {
+		pill.destroy();
 	}
 	
 	public void addWall(final int row, final int column) {

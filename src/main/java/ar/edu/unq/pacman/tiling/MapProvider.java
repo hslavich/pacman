@@ -1,11 +1,8 @@
 package ar.edu.unq.pacman.tiling;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 import ar.edu.unq.pacman.scene.GameMap;
 
 public class MapProvider {
@@ -25,15 +22,7 @@ public class MapProvider {
 			for (int i = 0; i < width; i++) {
 				for (int j = 0; j < height; j ++) {
 					final int pixel = img.getRGB(i, j);
-					if (pixel == Color.black.getRGB()) {
-						map.addWall(j, i);
-					} else {
-						map.addPath(j, i);
-					}
-					
-					if (Color.white.getRGB() == pixel) {
-						map.setPacmanInitialPos(j, i);
-					}
+					new TileProvider().apply(map, pixel, j, i);
 				}
 			}
 			
