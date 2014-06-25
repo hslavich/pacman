@@ -13,17 +13,12 @@ import ar.edu.unq.americana.scenes.components.tilemap.BaseTileMapResourceProvide
 import ar.edu.unq.americana.scenes.components.tilemap.ITileMapResourceProvider;
 import ar.edu.unq.americana.scenes.components.tilemap.ITileMapScene;
 import ar.edu.unq.americana.scenes.components.tilemap.TileMapBackground;
-import ar.edu.unq.americana.utils.Vector2D;
 import ar.edu.unq.pacman.component.Dot;
 import ar.edu.unq.pacman.component.Pacman;
 
 public class GameMap extends GameScene implements ITileMapScene {
 	
 	private Pacman pacman;
-	
-	private MapDescriptor mapDescriptor;
-	
-	private String levelName;
 	
 	private BaseTileMap tileMap;
 	
@@ -33,46 +28,46 @@ public class GameMap extends GameScene implements ITileMapScene {
 
 	private ITileMapResourceProvider tileMapResourceProvider;
 	
-	@Property("cell.width")
-	public static int CELL_WIDTH;
+	private boolean[][] path;
 
-	@Property("cell.height")
-	public static int CELL_HEIGHT;
+	private int pacmanInitRow;
 	
-	public GameMap(String levelName) throws IOException {
+	private int pacmanInitColumn;
+	
+	@Property("cell.size")
+	public static int CELL_SIZE;
+	
+	public GameMap(int rows, int columns) throws IOException {
 		super();
-		this.levelName = levelName;
-		this.mapDescriptor = new MapDescriptor(this.levelName);
-		this.setBackground();
+		this.path = new boolean[rows][columns];
+		this.rows = rows;
+		this.columns = columns;
 		initializeTileMap();
 	}
 	
 	private void initializeTileMap() {
 		this.tileMapResourceProvider = new BaseTileMapResourceProvider(this.rows, this.columns);
-		this.tileMapResourceProvider.register(1, SpriteResources.sprite("assets/tiles", "wall"));
-		this.tileMapResourceProvider.register(2, SpriteResources.sprite("assets/tiles", "path"));
+		this.tileMapResourceProvider.register(1, SpriteResources.sprite("assets/wall", "wall"));
+		this.tileMapResourceProvider.register(2, SpriteResources.sprite("assets/wall", "path"));
 		
-		this.tileMap = new BaseTileMap(this, CELL_WIDTH, CELL_HEIGHT, this.tileMapResourceProvider);
-	}
-
-	private void setBackground() {
-		this.addComponent(this.mapDescriptor.getBackgroundImage());
+		this.tileMap = new BaseTileMap(this, CELL_SIZE, CELL_SIZE, this.tileMapResourceProvider);
 	}
 
 	@Override
 	protected void addGameComponents() {
 		super.addGameComponents();
 		
-//		this.pacman = new Pacman();
+		this.pacman = new Pacman(this.pacmanInitRow, this.pacmanInitColumn);
 		this.addComponent(this.pacman);
 		
-		this.addDots();
+//		this.addDots();
 	}
 	
-	protected void addDots() {
-		this.addComponents(this.mapDescriptor.getDots());
+	public void setPacmanInitialPos(int row, int column) {
+		this.pacmanInitRow = row;
+		this.pacmanInitColumn = column;
 	}
-
+	
 	public Pacman getPacman() {
 		return pacman;
 	}
@@ -81,31 +76,28 @@ public class GameMap extends GameScene implements ITileMapScene {
 		dot.destroy();
 	}
 	
-	public Boolean isAccessible(Vector2D pos) {
-		return this.mapDescriptor.isAccessible(Double.valueOf(pos.getX()).intValue(), Double.valueOf(pos.getY()).intValue());
-	}
-	
 	public void addWall(final int row, final int column) {
 		this.tileMapResourceProvider.putAt(row, column, 1);
 	}
 	
 	public void addPath(final int row, final int column) {
+		this.path[row][column] = true;
 		this.tileMapResourceProvider.putAt(row, column, 2);
 	}
 
 	@Override
 	public int columnsCount() {
-		return 0;
+		return this.columns;
 	}
 
 	@Override
 	public int rowsCount() {
-		return 0;
+		return this.rows;
 	}
 
 	@Override
 	public boolean isAccessible(int row, int column) {
-		return false;
+		return this.path[row][column];
 	}
 
 	@Override

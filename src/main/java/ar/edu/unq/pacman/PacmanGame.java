@@ -1,17 +1,15 @@
 package ar.edu.unq.pacman;
 
 import java.awt.Dimension;
-import java.io.IOException;
-
 import ar.edu.unq.americana.Game;
 import ar.edu.unq.americana.configs.Property;
-import ar.edu.unq.pacman.scene.GameMap;
 import ar.edu.unq.pacman.tiling.MapProvider;
 
 public class PacmanGame extends Game {
 
 	@Property("game.width")
 	private static int WIDTH;
+	
 	@Property("game.height")
 	private static int HEIGHT;
 

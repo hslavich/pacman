@@ -3,7 +3,6 @@ package ar.edu.unq.pacman.component;
 import java.awt.Color;
 
 import ar.edu.unq.americana.GameComponent;
-import ar.edu.unq.americana.appearances.Circle;
 import ar.edu.unq.americana.configs.Property;
 import ar.edu.unq.americana.events.annotations.Events;
 import ar.edu.unq.americana.events.ioc.collision.CollisionStrategy;
