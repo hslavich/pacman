@@ -116,7 +116,9 @@ public class Pacman extends PositionableComponent<GameMap>{
 	protected void move(double distance) {
 		if (!this.dir.equals(new Vector2D(0, 0))) {
 			this.updateOffset(distance);
-			this.move(this.dir.multiply(distance));
+			if (this.offset != 0) {
+				this.move(this.dir.multiply(distance));
+			}
 		}
 	}
 	
