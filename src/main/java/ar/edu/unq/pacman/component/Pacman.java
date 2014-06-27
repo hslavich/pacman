@@ -1,6 +1,7 @@
 package ar.edu.unq.pacman.component;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import ar.edu.unq.americana.DeltaState;
 import ar.edu.unq.americana.appearances.Circle;
@@ -10,23 +11,27 @@ import ar.edu.unq.americana.events.annotations.EventType;
 import ar.edu.unq.americana.events.annotations.Events;
 import ar.edu.unq.americana.events.ioc.collision.CollisionStrategy;
 import ar.edu.unq.americana.scenes.components.tilemap.PositionableComponent;
+import ar.edu.unq.americana.utils.ResourcesUtils;
 import ar.edu.unq.americana.utils.Vector2D;
 import ar.edu.unq.pacman.scene.GameMap;
 
-public class Pacman extends PositionableComponent<GameMap>{
-	
+public class Pacman extends PositionableComponent<GameMap> {
+
 	@Property("pacman.diameter")
 	private static int DIAMETER;
-	
+
 	@Property("pacman.speed")
 	private static int SPEED;
-	
+
 	private double offset;
-	
+
 	private Vector2D nextDirection;
-	
+
 	private Vector2D dir;
-	
+
+	public static final Font font = ResourcesUtils.getFont("assets/fonts/Bombardier.ttf", Font.TRUETYPE_FONT,
+			Font.BOLD, 50);
+
 	public Pacman(int row, int column) {
 		this.setAppearance(new Circle(Color.yellow, DIAMETER));
 		this.offset = 0;
@@ -36,14 +41,14 @@ public class Pacman extends PositionableComponent<GameMap>{
 		this.setColumn(column);
 		this.resetPosition(row, column);
 	}
-	
+
 	@Override
 	public void onSceneActivated() {
 		super.onSceneActivated();
 		this.setX(this.getColumn() * GameMap.CELL_SIZE + (GameMap.CELL_SIZE / 2));
 		this.setY(this.getRow() * GameMap.CELL_SIZE + (GameMap.CELL_SIZE / 2));
 	}
-	
+
 	@Events.Keyboard(type = EventType.BeingHold, key = Key.D)
 	private void goRight(final DeltaState state) {
 		if (this.getScene().isAccessible(this.getRow(), this.getColumn() + 1)) {
@@ -71,20 +76,20 @@ public class Pacman extends PositionableComponent<GameMap>{
 			this.setNextDirection(0, -1);
 		}
 	}
-	
+
 	@Events.ColitionCheck.ForType(collisionStrategy = CollisionStrategy.FromBounds, type = Ghost.class)
 	private void checkPacmanCollision(final Ghost ghost) {
 		this.getScene().pacmanDie();
 	}
-	
+
 	public void setDir(double x, double y) {
 		this.dir = new Vector2D(x, y);
 	}
-	
+
 	protected void setNextDirection(int x, int y) {
 		this.nextDirection = new Vector2D(x, y);
 	}
-	
+
 	@Events.Update
 	public void update(final double delta) {
 		double distance = SPEED * delta;
@@ -102,11 +107,11 @@ public class Pacman extends PositionableComponent<GameMap>{
 			}
 		}
 	}
-	
+
 	private void center() {
 		double dx = this.getColumn() * GameMap.CELL_SIZE + (GameMap.CELL_SIZE / 2);
 		double dy = this.getRow() * GameMap.CELL_SIZE + (GameMap.CELL_SIZE / 2);
-		
+
 		this.setX(dx);
 		this.setY(dy);
 	}
@@ -115,12 +120,12 @@ public class Pacman extends PositionableComponent<GameMap>{
 		return this.getScene().isAccessible(this.getRow() + (int) this.nextDirection.getY(),
 				this.getColumn() + (int) this.nextDirection.getX());
 	}
-	
+
 	protected void fixCell() {
 		this.fixColumn((int) this.dir.getX());
 		this.fixRow((int) this.dir.getY());
 	}
-	
+
 	protected void move(double distance) {
 		if (!this.dir.equals(new Vector2D(0, 0))) {
 			this.updateOffset(distance);
@@ -129,7 +134,7 @@ public class Pacman extends PositionableComponent<GameMap>{
 			}
 		}
 	}
-	
+
 	protected void updateOffset(double distance) {
 		this.offset += distance;
 		if (this.offset >= GameMap.CELL_SIZE - 1) {
