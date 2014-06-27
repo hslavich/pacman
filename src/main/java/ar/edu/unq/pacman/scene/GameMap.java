@@ -14,12 +14,15 @@ import ar.edu.unq.americana.scenes.components.tilemap.BaseTileMapResourceProvide
 import ar.edu.unq.americana.scenes.components.tilemap.ITileMapResourceProvider;
 import ar.edu.unq.americana.scenes.components.tilemap.ITileMapScene;
 import ar.edu.unq.americana.scenes.components.tilemap.TileMapBackground;
+import ar.edu.unq.pacman.component.Ghost;
 import ar.edu.unq.pacman.component.Pill;
 import ar.edu.unq.pacman.component.Pacman;
 
 public class GameMap extends GameScene implements ITileMapScene {
 	
 	private Pacman pacman;
+	
+	private List<Ghost> ghosts;
 	
 	private List<Pill> pills;
 	
@@ -45,6 +48,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 		this.path = new boolean[rows][columns];
 		this.rows = rows;
 		this.columns = columns;
+		this.ghosts = new ArrayList<Ghost>();
 		this.pills = new ArrayList<Pill>();
 		initializeTileMap();
 	}
@@ -63,7 +67,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 		
 		this.pacman = new Pacman(this.pacmanInitRow, this.pacmanInitColumn);
 		this.addComponent(this.pacman);
-		
+		this.addComponents(this.ghosts);
 		this.addComponents(this.pills);
 	}
 	
@@ -123,5 +127,13 @@ public class GameMap extends GameScene implements ITileMapScene {
 		tileMapBackGround.setX(CELL_SIZE / 2);
 		tileMapBackGround.setY(CELL_SIZE / 2);
 		this.addComponent(tileMapBackGround);
+	}
+
+	public void addGhost(int row, int column) {
+		this.ghosts.add(new Ghost(row, column));
+	}
+
+	public void pacmanDie() {
+		this.pacman.reset();
 	}
 }

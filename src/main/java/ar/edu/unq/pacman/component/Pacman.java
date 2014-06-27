@@ -1,12 +1,14 @@
 package ar.edu.unq.pacman.component;
 
 import java.awt.Color;
+
 import ar.edu.unq.americana.DeltaState;
 import ar.edu.unq.americana.appearances.Circle;
 import ar.edu.unq.americana.configs.Property;
 import ar.edu.unq.americana.constants.Key;
 import ar.edu.unq.americana.events.annotations.EventType;
 import ar.edu.unq.americana.events.annotations.Events;
+import ar.edu.unq.americana.events.ioc.collision.CollisionStrategy;
 import ar.edu.unq.americana.scenes.components.tilemap.PositionableComponent;
 import ar.edu.unq.americana.utils.Vector2D;
 import ar.edu.unq.pacman.scene.GameMap;
@@ -32,6 +34,7 @@ public class Pacman extends PositionableComponent<GameMap>{
 		this.nextDirection = new Vector2D(0, 0);
 		this.setRow(row);
 		this.setColumn(column);
+		this.resetPosition(row, column);
 	}
 	
 	@Override
@@ -67,6 +70,11 @@ public class Pacman extends PositionableComponent<GameMap>{
 		if (this.getScene().isAccessible(this.getRow() - 1, this.getColumn())) {
 			this.setNextDirection(0, -1);
 		}
+	}
+	
+	@Events.ColitionCheck.ForType(collisionStrategy = CollisionStrategy.FromBounds, type = Ghost.class)
+	private void checkPacmanCollision(final Ghost ghost) {
+		this.getScene().pacmanDie();
 	}
 	
 	public void setDir(double x, double y) {
@@ -128,5 +136,17 @@ public class Pacman extends PositionableComponent<GameMap>{
 			this.offset = 0;
 			this.center();
 		}
+	}
+
+	public void reset() {
+		this.resetPosition();
+		this.resetDirection();
+		this.center();
+	}
+
+	private void resetDirection() {
+		this.setDir(0, 0);
+		this.setNextDirection(0, 0);
+		this.offset = 0;
 	}
 }
