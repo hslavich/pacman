@@ -1,6 +1,8 @@
 package ar.edu.unq.pacman.component;
 
 import java.awt.Color;
+import java.awt.Font;
+
 import ar.edu.unq.americana.DeltaState;
 import ar.edu.unq.americana.appearances.Circle;
 import ar.edu.unq.americana.configs.Property;
@@ -8,6 +10,7 @@ import ar.edu.unq.americana.constants.Key;
 import ar.edu.unq.americana.events.annotations.EventType;
 import ar.edu.unq.americana.events.annotations.Events;
 import ar.edu.unq.americana.scenes.components.tilemap.PositionableComponent;
+import ar.edu.unq.americana.utils.ResourcesUtils;
 import ar.edu.unq.americana.utils.Vector2D;
 import ar.edu.unq.pacman.scene.GameMap;
 
@@ -24,6 +27,8 @@ public class Pacman extends PositionableComponent<GameMap>{
 	private Vector2D nextDirection;
 	
 	private Vector2D dir;
+	public static final Font font = ResourcesUtils.getFont(
+			"assets/fonts/Bombardier.ttf", Font.TRUETYPE_FONT, Font.BOLD, 50);
 	
 	public Pacman(int row, int column) {
 		this.setAppearance(new Circle(Color.yellow, DIAMETER));

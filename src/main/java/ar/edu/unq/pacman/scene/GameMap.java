@@ -82,6 +82,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 
 	public void destroyPill(Pill pill) {
 		pill.destroy();
+		this.pills.remove(0);
 	}
 	
 	public void addWall(final int row, final int column) {
@@ -123,5 +124,9 @@ public class GameMap extends GameScene implements ITileMapScene {
 		tileMapBackGround.setX(CELL_SIZE / 2);
 		tileMapBackGround.setY(CELL_SIZE / 2);
 		this.addComponent(tileMapBackGround);
+	}
+	
+	public List<Pill> getPills(){
+		return this.pills;
 	}
 }

@@ -7,6 +7,7 @@ import ar.edu.unq.americana.configs.Property;
 import ar.edu.unq.americana.events.annotations.Events;
 import ar.edu.unq.americana.events.ioc.collision.CollisionStrategy;
 import ar.edu.unq.pacman.scene.GameMap;
+import ar.edu.unq.pacman.scene.PacmanGameOverScene;
 import ar.edu.unq.americana.appearances.Rectangle;
 
 public class Pill extends GameComponent<GameMap> {
@@ -23,5 +24,9 @@ public class Pill extends GameComponent<GameMap> {
 	@Events.ColitionCheck.ForType(collisionStrategy = CollisionStrategy.FromBounds, type = Pacman.class)
 	private void checkPacmanCollision(final Pacman pacman) {
 		this.getScene().destroyPill(this);
+		if(this.getScene().getPills().size() == 0){
+//			this.getGame().closeGame();
+			this.getGame().setCurrentScene(new PacmanGameOverScene());
+		}
 	}
 }
