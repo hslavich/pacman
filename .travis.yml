@@ -1,5 +1,4 @@
 language: java
 before_install:
     - git clone https://github.com/leezsi/americana.git
-    - cd americana
-    - mvn clean install
+    - mvn clean install -f americana/pom.xml
