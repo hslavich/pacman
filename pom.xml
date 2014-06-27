@@ -50,9 +50,9 @@
       jarFile -->
     <assemblyDescriptor>jar-with-dependencies</assemblyDescriptor>
   </properties>
-  <name>Bomberman</name>
+  <name>Pacman</name>
   <url>.</url>
-  <description>Bomberman develop with Americana</description>
+  <description>Pacman develop with Americana</description>
 
   <build>
     <plugins>
