@@ -145,6 +145,12 @@ public class Pacman extends PositionableComponent<GameMap> {
 	protected void fixCell() {
 		this.fixColumn((int) this.dir.getX());
 		this.fixRow((int) this.dir.getY());
+		
+		if (this.getColumn() > this.getScene().columnsCount()) {
+			this.setColumn(-1);
+		} else if (this.getColumn() < -1) {
+			this.setColumn(this.getScene().columnsCount());
+		}
 	}
 
 	protected void move(double distance) {
