@@ -12,6 +12,7 @@ import ar.edu.unq.americana.events.ioc.collision.CollisionStrategy;
 import ar.edu.unq.americana.scenes.components.tilemap.PositionableComponent;
 import ar.edu.unq.americana.utils.ResourcesUtils;
 import ar.edu.unq.americana.utils.Vector2D;
+import ar.edu.unq.pacman.event.InverseModeFinishEvent;
 import ar.edu.unq.pacman.event.InverseModeStartEvent;
 import ar.edu.unq.pacman.scene.GameMap;
 
@@ -28,7 +29,7 @@ public class Pacman extends PositionableComponent<GameMap> {
 	private Vector2D nextDirection;
 
 	private Vector2D dir;
-	
+
 	private boolean inverseMode = false;
 
 	public static final Font font = ResourcesUtils.getFont("assets/fonts/Bombardier.ttf", Font.TRUETYPE_FONT,
@@ -87,10 +88,15 @@ public class Pacman extends PositionableComponent<GameMap> {
 			this.getScene().pacmanDie();
 		}
 	}
-	
+
 	@Events.Fired(InverseModeStartEvent.class)
 	protected void inverseModeStart(InverseModeStartEvent event) {
 		this.inverseMode = true;
+	}
+
+	@Events.Fired(InverseModeFinishEvent.class)
+	protected void inverseModeFinish(InverseModeFinishEvent event) {
+		this.inverseMode = false;
 	}
 
 	public void setDir(double x, double y) {
@@ -145,7 +151,7 @@ public class Pacman extends PositionableComponent<GameMap> {
 	protected void fixCell() {
 		this.fixColumn((int) this.dir.getX());
 		this.fixRow((int) this.dir.getY());
-		
+
 		if (this.getColumn() > this.getScene().columnsCount()) {
 			this.setColumn(-1);
 		} else if (this.getColumn() < -1) {

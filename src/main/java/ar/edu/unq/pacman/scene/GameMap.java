@@ -6,7 +6,9 @@ import java.util.List;
 
 import ar.edu.unq.americana.GameScene;
 import ar.edu.unq.americana.appearances.utils.SpriteResources;
+import ar.edu.unq.americana.components.Timer;
 import ar.edu.unq.americana.configs.Property;
+import ar.edu.unq.americana.events.annotations.Events;
 import ar.edu.unq.americana.ia.pathfindier.Node;
 import ar.edu.unq.americana.ia.pathfindier.TileMap;
 import ar.edu.unq.americana.scenes.components.tilemap.BaseTileMap;
@@ -17,6 +19,8 @@ import ar.edu.unq.americana.scenes.components.tilemap.TileMapBackground;
 import ar.edu.unq.pacman.component.Ghost;
 import ar.edu.unq.pacman.component.Pacman;
 import ar.edu.unq.pacman.component.Pill;
+import ar.edu.unq.pacman.event.InverseModeFinishEvent;
+import ar.edu.unq.pacman.event.InverseModeStartEvent;
 
 public class GameMap extends GameScene implements ITileMapScene {
 
@@ -40,8 +44,13 @@ public class GameMap extends GameScene implements ITileMapScene {
 
 	private int pacmanInitColumn;
 
+	private Timer timer;
+
 	@Property("cell.size")
 	public static int CELL_SIZE;
+
+	@Property("inversemode.duration")
+	public static int INVERSE_MODE_DURATION;
 
 	public GameMap(int rows, int columns) throws IOException {
 		super();
@@ -50,6 +59,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 		this.columns = columns;
 		this.ghosts = new ArrayList<Ghost>();
 		this.pills = new ArrayList<Pill>();
+		this.timer = new Timer(INVERSE_MODE_DURATION, new InverseModeFinishEvent());
 		this.initializeTileMap();
 	}
 
@@ -64,6 +74,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 	@Override
 	protected void addGameComponents() {
 		super.addGameComponents();
+		this.addComponent(this.timer);
 
 		this.pacman = new Pacman(this.pacmanInitRow, this.pacmanInitColumn);
 		this.addComponent(this.pacman);
@@ -120,6 +131,12 @@ public class GameMap extends GameScene implements ITileMapScene {
 		}
 	}
 
+	@Events.Fired(InverseModeStartEvent.class)
+	protected void inverseModeStart(InverseModeStartEvent event) {
+		this.timer.reset();
+		this.timer.start();
+	}
+
 	@Override
 	public List<Node> adjacents(Node node) {
 		return null;
@@ -144,7 +161,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 	public void pacmanDie() {
 		this.pacman.reset();
 	}
-	
+
 	public void ghostDie(Ghost ghost) {
 		ghost.destroy();
 	}
