@@ -18,6 +18,7 @@ public class TileProvider {
 		this.tiles.add(new PathTile());
 		this.tiles.add(new WallTile());
 		this.tiles.add(new PillTile());
+		this.tiles.add(new BigPillTile());
 		this.tiles.add(new PacmanTile());
 		this.tiles.add(new GhostTile());
 	}

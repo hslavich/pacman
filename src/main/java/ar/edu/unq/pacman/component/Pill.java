@@ -12,12 +12,16 @@ import ar.edu.unq.pacman.scene.GameMap;
 public class Pill extends GameComponent<GameMap> {
 
 	@Property("dot.size")
-	private static int SIZE;
+	protected static int SIZE;
 
 	public Pill(int row, int column) {
 		this.setX(column * GameMap.CELL_SIZE + (GameMap.CELL_SIZE / 2));
 		this.setY(row * GameMap.CELL_SIZE + (GameMap.CELL_SIZE / 2));
-		this.setAppearance(new Rectangle(Color.orange, SIZE, SIZE));
+		this.setAppearance();
+	}
+	
+	protected void setAppearance() {
+		this.setAppearance(new Rectangle(Color.WHITE, SIZE, SIZE));
 	}
 
 	@Events.ColitionCheck.ForType(collisionStrategy = CollisionStrategy.FromBounds, type = Pacman.class)
