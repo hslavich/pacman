@@ -1,10 +1,9 @@
 package ar.edu.unq.pacman.component;
 
-import java.awt.Color;
 import java.awt.Font;
 
 import ar.edu.unq.americana.DeltaState;
-import ar.edu.unq.americana.appearances.Circle;
+import ar.edu.unq.americana.appearances.utils.SpriteResources;
 import ar.edu.unq.americana.configs.Property;
 import ar.edu.unq.americana.constants.Key;
 import ar.edu.unq.americana.events.annotations.EventType;
@@ -33,7 +32,7 @@ public class Pacman extends PositionableComponent<GameMap> {
 			Font.BOLD, 50);
 
 	public Pacman(int row, int column) {
-		this.setAppearance(new Circle(Color.yellow, DIAMETER));
+		this.setAppearance(SpriteResources.sprite("assets/pacman/pacman", "pacman-full"));
 		this.offset = 0;
 		this.dir = new Vector2D(0, 0);
 		this.nextDirection = new Vector2D(0, 0);
@@ -83,6 +82,16 @@ public class Pacman extends PositionableComponent<GameMap> {
 	}
 
 	public void setDir(double x, double y) {
+		if (x == 1) {
+			this.setAppearance(SpriteResources.animation("assets/pacman/pacman", "pacman-right"));
+		} else if (y == 1) {
+			this.setAppearance(SpriteResources.animation("assets/pacman/pacman", "pacman-down"));
+		} else if (x == -1) {
+			this.setAppearance(SpriteResources.animation("assets/pacman/pacman", "pacman-left"));
+		} else if (y == -1) {
+			this.setAppearance(SpriteResources.animation("assets/pacman/pacman", "pacman-up"));
+
+		}
 		this.dir = new Vector2D(x, y);
 	}
 

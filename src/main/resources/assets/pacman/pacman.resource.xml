@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource>
+    <animation name="pacman-right" meantime="0.05" width="32" height="32">
+        <ref to="pacman-full" />
+        <ref to="pacman-right2" />
+        <ref to="pacman-right1" />
+    </animation>
+    <animation name="pacman-down" meantime="0.05" width="32" height="32">
+        <ref to="pacman-full" />
+        <ref to="pacman-down2" />
+        <ref to="pacman-down1" />
+    </animation>
+    <animation name="pacman-left" meantime="0.05" width="32" height="32">
+        <ref to="pacman-full" />
+        <ref to="pacman-left2" />
+        <ref to="pacman-left1" />
+    </animation>
+    <animation name="pacman-up" meantime="0.05" width="32" height="32">
+        <ref to="pacman-full" />
+        <ref to="pacman-up2" />
+<!--         <ref to="pacman-up1" /> -->
+    </animation>
+
+	<sprites img="pacman.png">
+	    <sprite name="pacman-full" width="32" height="32">
+            <crop x="0" y="64" width="14" height="14" />
+        </sprite>
+        <sprite name="pacman-right1" width="32" height="32">
+            <crop x="0" y="0" width="14" height="14" />
+        </sprite>
+        <sprite name="pacman-right2" width="32" height="32">
+            <crop x="0" y="32" width="14" height="14" />
+        </sprite>
+        <sprite name="pacman-down1" width="32" height="32">
+            <crop x="0" y="16" width="14" height="14" />
+        </sprite>
+        <sprite name="pacman-down2" width="32" height="32">
+            <crop x="0" y="48" width="14" height="14" />
+        </sprite>
+         <sprite name="pacman-left1" width="32" height="32">
+            <crop x="50" y="0" width="14" height="14" />
+        </sprite>
+        <sprite name="pacman-left2" width="32" height="32">
+            <crop x="50" y="32" width="14" height="14" />
+        </sprite>
+        <sprite name="pacman-up1" width="32" height="32">
+            <crop x="49" y="13" width="14" height="14" />
+        </sprite>
+        <sprite name="pacman-up2" width="32" height="32">
+            <crop x="49" y="47" width="14" height="14" />
+        </sprite>
+	</sprites>
+</resource>
