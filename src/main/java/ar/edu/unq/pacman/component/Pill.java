@@ -25,7 +25,7 @@ public class Pill extends GameComponent<GameMap> {
 	}
 
 	@Events.ColitionCheck.ForType(collisionStrategy = CollisionStrategy.FromBounds, type = Pacman.class)
-	private void checkPacmanCollision(final Pacman pacman) {
+	protected void checkPacmanCollision(final Pacman pacman) {
 		this.getScene().destroyPill(this);
 	}
 }

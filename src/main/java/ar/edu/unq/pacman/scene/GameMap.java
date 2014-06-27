@@ -140,6 +140,10 @@ public class GameMap extends GameScene implements ITileMapScene {
 	public void pacmanDie() {
 		this.pacman.reset();
 	}
+	
+	public void ghostDie(Ghost ghost) {
+		ghost.destroy();
+	}
 
 	public List<Pill> getPills() {
 		return this.pills;
