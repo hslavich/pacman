@@ -87,6 +87,9 @@ public class GameMap extends GameScene implements ITileMapScene {
 	public void destroyPill(Pill pill) {
 		pill.destroy();
 		this.pills.remove(0);
+		if (this.pills.isEmpty()) {
+			this.getGame().setCurrentScene(new PacmanGameOverScene());
+		}
 	}
 
 	public void addWall(final int row, final int column) {
