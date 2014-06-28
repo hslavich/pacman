@@ -3,9 +3,11 @@ package ar.edu.unq.pacman.scene;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import ar.edu.unq.americana.GameScene;
 import ar.edu.unq.americana.appearances.utils.SpriteResources;
+import ar.edu.unq.americana.components.LifeCounter;
 import ar.edu.unq.americana.components.Timer;
 import ar.edu.unq.americana.configs.Property;
 import ar.edu.unq.americana.events.annotations.Events;
@@ -46,6 +48,8 @@ public class GameMap extends GameScene implements ITileMapScene {
 
 	private Timer timer;
 
+	private int lives;
+	
 	@Property("cell.size")
 	public static int CELL_SIZE;
 
@@ -60,6 +64,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 		this.ghosts = new ArrayList<Ghost>();
 		this.pills = new ArrayList<Pill>();
 		this.timer = new Timer(INVERSE_MODE_DURATION, new InverseModeFinishEvent());
+		this.lives = 3;
 		this.initializeTileMap();
 	}
 
@@ -174,9 +179,14 @@ public class GameMap extends GameScene implements ITileMapScene {
 	}
 
 	public void pacmanDie() {
-		this.pacman.reset();
-		for (Ghost ghost : this.ghosts) {
-			ghost.reset();
+		this.lives--;
+		if(this.lives > 0){
+			this.pacman.reset();
+			for (Ghost ghost : this.ghosts) {
+				ghost.reset();
+			}
+		} else{
+			this.getGame().setCurrentScene(new PacmanGameOverScene());
 		}
 	}
 
