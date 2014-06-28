@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource>
+    <animation name="red" meantime="0.1" width="32" height="32">
+        <ref to="red1" />
+        <ref to="red2" />
+    </animation>
+    
+    <animation name="inverse" meantime="0.1" width="32" height="32">
+        <ref to="inverse1" />
+        <ref to="inverse2" />
+    </animation>
+
+	<sprites img="ghost.png">
+	    <sprite name="red1" width="32" height="32">
+            <crop x="1" y="1" width="14" height="14" />
+        </sprite>
+        <sprite name="red2" width="32" height="32">
+            <crop x="1" y="17" width="14" height="14" />
+        </sprite>
+        <sprite name="inverse1" width="32" height="32">
+            <crop x="97" y="1" width="14" height="14" />
+        </sprite>
+        <sprite name="inverse2" width="32" height="32">
+            <crop x="97" y="17" width="14" height="14" />
+        </sprite>
+	</sprites>
+</resource>

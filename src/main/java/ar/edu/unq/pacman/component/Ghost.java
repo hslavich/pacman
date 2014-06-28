@@ -1,10 +1,9 @@
 package ar.edu.unq.pacman.component;
 
-import java.awt.Color;
 import java.util.Iterator;
 import java.util.List;
 
-import ar.edu.unq.americana.appearances.Circle;
+import ar.edu.unq.americana.appearances.utils.SpriteResources;
 import ar.edu.unq.americana.configs.Property;
 import ar.edu.unq.americana.events.annotations.Events;
 import ar.edu.unq.americana.ia.pathfindier.Node;
@@ -26,10 +25,11 @@ public class Ghost extends Actor {
 		super(row, column);
 		this.resetPosition();
 		this.setDefaultAppearance();
+		this.setZ(2);
 	}
 
 	private void setDefaultAppearance() {
-		this.setAppearance(new Circle(Color.RED, SIZE));
+		this.setAppearance(SpriteResources.animation("assets/ghost/ghost", "red"));
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class Ghost extends Actor {
 
 	@Events.Fired(InverseModeStartEvent.class)
 	protected void inverseModeStart(InverseModeStartEvent event) {
-		this.setAppearance(new Circle(Color.BLUE, SIZE));
+		this.setAppearance(SpriteResources.animation("assets/ghost/ghost", "inverse"));
 	}
 
 	@Events.Fired(InverseModeFinishEvent.class)
