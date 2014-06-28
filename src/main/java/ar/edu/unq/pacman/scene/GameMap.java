@@ -1,14 +1,16 @@
 package ar.edu.unq.pacman.scene;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import ar.edu.unq.americana.GameScene;
 import ar.edu.unq.americana.appearances.utils.SpriteResources;
-import ar.edu.unq.americana.components.LifeCounter;
+import ar.edu.unq.americana.components.Score;
 import ar.edu.unq.americana.components.Timer;
+import ar.edu.unq.americana.components.events.ScoreUpEvent;
 import ar.edu.unq.americana.configs.Property;
 import ar.edu.unq.americana.events.annotations.Events;
 import ar.edu.unq.americana.ia.pathfindier.Node;
@@ -18,6 +20,7 @@ import ar.edu.unq.americana.scenes.components.tilemap.BaseTileMapResourceProvide
 import ar.edu.unq.americana.scenes.components.tilemap.ITileMapResourceProvider;
 import ar.edu.unq.americana.scenes.components.tilemap.ITileMapScene;
 import ar.edu.unq.americana.scenes.components.tilemap.TileMapBackground;
+import ar.edu.unq.americana.utils.ResourcesUtils;
 import ar.edu.unq.pacman.component.Ghost;
 import ar.edu.unq.pacman.component.Pacman;
 import ar.edu.unq.pacman.component.Pill;
@@ -55,6 +58,11 @@ public class GameMap extends GameScene implements ITileMapScene {
 
 	@Property("inversemode.duration")
 	public static int INVERSE_MODE_DURATION;
+	
+	private Score<GameMap> score;
+	
+	public static final Font font = ResourcesUtils.getFont(
+			"assets/fonts/Bombardier.ttf", Font.TRUETYPE_FONT, Font.BOLD, 50);
 
 	public GameMap(int rows, int columns) throws IOException {
 		super();
@@ -65,6 +73,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 		this.pills = new ArrayList<Pill>();
 		this.timer = new Timer(INVERSE_MODE_DURATION, new InverseModeFinishEvent());
 		this.lives = 3;
+		this.score = new Score<GameMap>(10, font, Color.GRAY);
 		this.initializeTileMap();
 	}
 
@@ -85,6 +94,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 		this.addComponent(this.pacman);
 		this.addComponents(this.ghosts);
 		this.addComponents(this.pills);
+		this.addComponent(this.score);
 	}
 
 	public void setPacmanInitialPos(int row, int column) {
@@ -103,6 +113,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 	public void destroyPill(Pill pill) {
 		pill.destroy();
 		this.pills.remove(0);
+		this.fire(new ScoreUpEvent());
 		if (this.pills.isEmpty()) {
 			this.getGame().setCurrentScene(new PacmanGameOverScene());
 		}
@@ -191,6 +202,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 	}
 
 	public void ghostDie(Ghost ghost) {
+		this.fire(new ScoreUpEvent());
 		ghost.die();
 	}
 
