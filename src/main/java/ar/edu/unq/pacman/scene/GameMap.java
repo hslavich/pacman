@@ -122,7 +122,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 		this.pills.remove(0);
 		this.fire(new ScoreUpEvent());
 		if (this.pills.isEmpty()) {
-			this.getGame().setCurrentScene(new PacmanGameOverScene());
+			this.getGame().setCurrentScene(new PacmanWinScene());
 		}
 	}
 
@@ -216,5 +216,9 @@ public class GameMap extends GameScene implements ITileMapScene {
 
 	public List<Pill> getPills() {
 		return this.pills;
+	}
+	
+	public Score<GameMap> getScore(){
+		return this.score;
 	}
 }
