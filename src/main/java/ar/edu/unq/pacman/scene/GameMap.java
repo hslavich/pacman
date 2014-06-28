@@ -125,9 +125,9 @@ public class GameMap extends GameScene implements ITileMapScene {
 	@Override
 	public boolean isAccessible(int row, int column) {
 		try {
-			return this.path[row][column];
+			return this.path[(row + this.rows) % this.rows][(column + this.columns) % this.columns];
 		} catch (ArrayIndexOutOfBoundsException e) {
-			return true;
+			return false;
 		}
 	}
 

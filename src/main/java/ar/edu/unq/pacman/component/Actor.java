@@ -10,7 +10,7 @@ public abstract class Actor extends PositionableComponent<GameMap> {
 
 	private Vector2D dir;
 
-	private double offset;
+	protected double offset;
 
 	public Actor(int row, int column) {
 		this.offset = 0;

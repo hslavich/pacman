@@ -1,6 +1,7 @@
 package ar.edu.unq.pacman.component;
 
 import java.awt.Color;
+import java.util.Iterator;
 import java.util.List;
 
 import ar.edu.unq.americana.appearances.Circle;
@@ -18,6 +19,8 @@ public class Ghost extends Actor {
 
 	@Property("ghost.speed")
 	private static int SPEED;
+
+	protected Node prev;
 
 	public Ghost(int row, int column) {
 		super(row, column);
@@ -62,10 +65,24 @@ public class Ghost extends Actor {
 		this.center();
 	}
 
+	@Override
+	protected void fixCell() {
+		this.prev = new Node(this.getRow(), this.getColumn(), 0);
+		super.fixCell();
+	}
+
 	protected void chooseNextDirection() {
-		List<Node> adjs = this.getScene().adjacents(new Node(this.getRow(), this.getColumn(), 0));
-		Node node = adjs.get(0 + (int) (Math.random() * adjs.size()));
-		this.setNextDirection(node.column() - this.getColumn(), node.row() - this.getRow());
+		if (this.offset == 0) {
+			List<Node> adjs = this.getScene().adjacents(new Node(this.getRow(), this.getColumn(), 0));
+			for (Iterator<Node> it = adjs.iterator(); it.hasNext();) {
+				Node n = it.next();
+				if (this.prev != null && this.prev.row() == n.row() && this.prev.column() == n.column()) {
+					it.remove();
+				}
+			}
+			Node node = adjs.get(0 + (int) (Math.random() * adjs.size()));
+			this.setNextDirection(node.column() - this.getColumn(), node.row() - this.getRow());
+		}
 	}
 
 	@Override
