@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.unq.americana.GameScene;
+import ar.edu.unq.americana.appearances.Sprite;
 import ar.edu.unq.americana.appearances.utils.SpriteResources;
+import ar.edu.unq.americana.components.LifeCounter;
 import ar.edu.unq.americana.components.Score;
 import ar.edu.unq.americana.components.Timer;
 import ar.edu.unq.americana.components.events.ScoreUpEvent;
@@ -63,6 +65,8 @@ public class GameMap extends GameScene implements ITileMapScene {
 	
 	public static final Font font = ResourcesUtils.getFont(
 			"assets/fonts/Bombardier.ttf", Font.TRUETYPE_FONT, Font.BOLD, 50);
+	
+	private LifeCounter<?> lifeCounter;
 
 	public GameMap(int rows, int columns) throws IOException {
 		super();
@@ -74,6 +78,8 @@ public class GameMap extends GameScene implements ITileMapScene {
 		this.timer = new Timer(INVERSE_MODE_DURATION, new InverseModeFinishEvent());
 		this.lives = 3;
 		this.score = new Score<GameMap>(10, font, Color.GRAY);
+		this.lifeCounter = new LifeCounter<GameMap>(3, SpriteResources.sprite(
+				"assets/pacman/pacman", "pacman-right1"));
 		this.initializeTileMap();
 	}
 
@@ -95,6 +101,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 		this.addComponents(this.ghosts);
 		this.addComponents(this.pills);
 		this.addComponent(this.score);
+		this.addComponent(this.lifeCounter);
 	}
 
 	public void setPacmanInitialPos(int row, int column) {
@@ -191,6 +198,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 
 	public void pacmanDie() {
 		this.lives--;
+		this.lifeCounter.lossLife();
 		if(this.lives > 0){
 			this.pacman.reset();
 			for (Ghost ghost : this.ghosts) {
