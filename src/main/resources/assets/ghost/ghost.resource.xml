@@ -5,6 +5,21 @@
         <ref to="red2" />
     </animation>
     
+    <animation name="pink" meantime="0.1" width="32" height="32">
+        <ref to="pink1" />
+        <ref to="pink2" />
+    </animation>
+    
+    <animation name="green" meantime="0.1" width="32" height="32">
+        <ref to="green1" />
+        <ref to="green2" />
+    </animation>
+    
+    <animation name="orange" meantime="0.1" width="32" height="32">
+        <ref to="orange1" />
+        <ref to="orange2" />
+    </animation>
+    
     <animation name="inverse" meantime="0.1" width="32" height="32">
         <ref to="inverse1" />
         <ref to="inverse2" />
@@ -16,6 +31,24 @@
         </sprite>
         <sprite name="red2" width="32" height="32">
             <crop x="1" y="17" width="14" height="14" />
+        </sprite>
+        <sprite name="pink1" width="32" height="32">
+            <crop x="17" y="1" width="14" height="14" />
+        </sprite>
+        <sprite name="pink2" width="32" height="32">
+            <crop x="17" y="17" width="14" height="14" />
+        </sprite>
+        <sprite name="green1" width="32" height="32">
+            <crop x="65" y="1" width="14" height="14" />
+        </sprite>
+        <sprite name="green2" width="32" height="32">
+            <crop x="65" y="17" width="14" height="14" />
+        </sprite>
+        <sprite name="orange1" width="32" height="32">
+            <crop x="49" y="1" width="14" height="14" />
+        </sprite>
+        <sprite name="orange2" width="32" height="32">
+            <crop x="49" y="17" width="14" height="14" />
         </sprite>
         <sprite name="inverse1" width="32" height="32">
             <crop x="97" y="1" width="14" height="14" />

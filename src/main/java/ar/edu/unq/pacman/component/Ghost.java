@@ -21,15 +21,18 @@ public class Ghost extends Actor {
 
 	protected Node prev;
 
-	public Ghost(int row, int column) {
+	protected String name;
+
+	public Ghost(int row, int column, String name) {
 		super(row, column);
+		this.name = name;
 		this.resetPosition();
 		this.setDefaultAppearance();
 		this.setZ(2);
 	}
 
 	private void setDefaultAppearance() {
-		this.setAppearance(SpriteResources.animation("assets/ghost/ghost", "red"));
+		this.setAppearance(SpriteResources.animation("assets/ghost/ghost", this.name));
 	}
 
 	@Override

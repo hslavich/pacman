@@ -169,8 +169,8 @@ public class GameMap extends GameScene implements ITileMapScene {
 		this.addComponent(tileMapBackGround);
 	}
 
-	public void addGhost(int row, int column) {
-		this.ghosts.add(new Ghost(row, column));
+	public void addGhost(int row, int column, String name) {
+		this.ghosts.add(new Ghost(row, column, name));
 	}
 
 	public void pacmanDie() {
