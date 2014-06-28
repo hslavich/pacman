@@ -23,6 +23,8 @@ public class Ghost extends Actor {
 
 	protected String name;
 
+	protected boolean inverseMode;
+
 	public Ghost(int row, int column, String name) {
 		super(row, column);
 		this.name = name;
@@ -44,11 +46,13 @@ public class Ghost extends Actor {
 
 	@Events.Fired(InverseModeStartEvent.class)
 	protected void inverseModeStart(InverseModeStartEvent event) {
+		this.inverseMode = true;
 		this.setAppearance(SpriteResources.animation("assets/ghost/ghost", "inverse"));
 	}
 
 	@Events.Fired(InverseModeFinishEvent.class)
 	protected void inverseModeFinish(InverseModeFinishEvent event) {
+		this.inverseMode = false;
 		this.setDefaultAppearance();
 	}
 
@@ -90,7 +94,11 @@ public class Ghost extends Actor {
 
 	@Override
 	protected double getSpeed() {
-		return SPEED;
+		double delta = 1;
+		if (this.inverseMode) {
+			delta = 0.6;
+		}
+		return SPEED * delta;
 	}
 
 }
