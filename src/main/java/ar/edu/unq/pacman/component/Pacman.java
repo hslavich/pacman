@@ -1,7 +1,5 @@
 package ar.edu.unq.pacman.component;
 
-import java.awt.Font;
-
 import ar.edu.unq.americana.DeltaState;
 import ar.edu.unq.americana.appearances.utils.SpriteResources;
 import ar.edu.unq.americana.configs.Property;
@@ -9,14 +7,11 @@ import ar.edu.unq.americana.constants.Key;
 import ar.edu.unq.americana.events.annotations.EventType;
 import ar.edu.unq.americana.events.annotations.Events;
 import ar.edu.unq.americana.events.ioc.collision.CollisionStrategy;
-import ar.edu.unq.americana.scenes.components.tilemap.PositionableComponent;
-import ar.edu.unq.americana.utils.ResourcesUtils;
-import ar.edu.unq.americana.utils.Vector2D;
 import ar.edu.unq.pacman.event.InverseModeFinishEvent;
 import ar.edu.unq.pacman.event.InverseModeStartEvent;
 import ar.edu.unq.pacman.scene.GameMap;
 
-public class Pacman extends PositionableComponent<GameMap> {
+public class Pacman extends Actor {
 
 	@Property("pacman.diameter")
 	private static int DIAMETER;
@@ -24,25 +19,11 @@ public class Pacman extends PositionableComponent<GameMap> {
 	@Property("pacman.speed")
 	private static int SPEED;
 
-	private double offset;
-
-	private Vector2D nextDirection;
-
-	private Vector2D dir;
-
 	private boolean inverseMode = false;
 
-	public static final Font font = ResourcesUtils.getFont("assets/fonts/Bombardier.ttf", Font.TRUETYPE_FONT,
-			Font.BOLD, 50);
-
 	public Pacman(int row, int column) {
+		super(row, column);
 		this.setAppearance(SpriteResources.sprite("assets/pacman/pacman", "pacman-full"));
-		this.offset = 0;
-		this.dir = new Vector2D(0, 0);
-		this.nextDirection = new Vector2D(0, 0);
-		this.setRow(row);
-		this.setColumn(column);
-		this.resetPosition(row, column);
 	}
 
 	@Override
@@ -99,6 +80,7 @@ public class Pacman extends PositionableComponent<GameMap> {
 		this.inverseMode = false;
 	}
 
+	@Override
 	public void setDir(double x, double y) {
 		if (x == 1) {
 			this.setAppearance(SpriteResources.animation("assets/pacman/pacman", "pacman-right"));
@@ -108,72 +90,13 @@ public class Pacman extends PositionableComponent<GameMap> {
 			this.setAppearance(SpriteResources.animation("assets/pacman/pacman", "pacman-left"));
 		} else if (y == -1) {
 			this.setAppearance(SpriteResources.animation("assets/pacman/pacman", "pacman-up"));
-
 		}
-		this.dir = new Vector2D(x, y);
-	}
-
-	protected void setNextDirection(int x, int y) {
-		this.nextDirection = new Vector2D(x, y);
+		super.setDir(x, y);
 	}
 
 	@Events.Update
 	public void update(final double delta) {
-		double distance = SPEED * delta;
-		this.updateDirection();
-		this.move(distance);
-	}
-
-	protected void updateDirection() {
-		if (this.offset == 0 && !this.nextDirection.equals(new Vector2D(0, 0))) {
-			if (this.canMove()) {
-				this.setDir(this.nextDirection.getX(), this.nextDirection.getY());
-				this.fixCell();
-			} else {
-				this.setDir(0, 0);
-			}
-		}
-	}
-
-	private void center() {
-		double dx = this.getColumn() * GameMap.CELL_SIZE + (GameMap.CELL_SIZE / 2);
-		double dy = this.getRow() * GameMap.CELL_SIZE + (GameMap.CELL_SIZE / 2);
-
-		this.setX(dx);
-		this.setY(dy);
-	}
-
-	protected boolean canMove() {
-		return this.getScene().isAccessible(this.getRow() + (int) this.nextDirection.getY(),
-				this.getColumn() + (int) this.nextDirection.getX());
-	}
-
-	protected void fixCell() {
-		this.fixColumn((int) this.dir.getX());
-		this.fixRow((int) this.dir.getY());
-
-		if (this.getColumn() > this.getScene().columnsCount()) {
-			this.setColumn(-1);
-		} else if (this.getColumn() < -1) {
-			this.setColumn(this.getScene().columnsCount());
-		}
-	}
-
-	protected void move(double distance) {
-		if (!this.dir.equals(new Vector2D(0, 0))) {
-			this.updateOffset(distance);
-			if (this.offset != 0) {
-				this.move(this.dir.multiply(distance));
-			}
-		}
-	}
-
-	protected void updateOffset(double distance) {
-		this.offset += distance;
-		if (this.offset >= GameMap.CELL_SIZE - 1) {
-			this.offset = 0;
-			this.center();
-		}
+		this.move(delta);
 	}
 
 	public void reset() {
@@ -182,9 +105,12 @@ public class Pacman extends PositionableComponent<GameMap> {
 		this.center();
 	}
 
-	private void resetDirection() {
-		this.setDir(0, 0);
-		this.setNextDirection(0, 0);
-		this.offset = 0;
+	@Override
+	protected double getSpeed() {
+		double delta = 1;
+		if (this.inverseMode) {
+			delta = 1.3;
+		}
+		return SPEED * delta;
 	}
 }

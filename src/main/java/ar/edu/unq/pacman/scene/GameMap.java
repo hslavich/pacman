@@ -139,7 +139,22 @@ public class GameMap extends GameScene implements ITileMapScene {
 
 	@Override
 	public List<Node> adjacents(Node node) {
-		return null;
+		final List<Node> adjacents = new ArrayList<Node>();
+		final int r = node.row();
+		final int c = node.column();
+		if (this.isAccessible(r - 1, c)) {
+			adjacents.add(new Node(r - 1, c, 0));
+		}
+		if (this.isAccessible(r + 1, c)) {
+			adjacents.add(new Node(r + 1, c, 0));
+		}
+		if (this.isAccessible(r, c - 1)) {
+			adjacents.add(new Node(r, c - 1, 0));
+		}
+		if (this.isAccessible(r, c + 1)) {
+			adjacents.add(new Node(r, c + 1, 0));
+		}
+		return adjacents;
 	}
 
 	@Override
@@ -160,10 +175,13 @@ public class GameMap extends GameScene implements ITileMapScene {
 
 	public void pacmanDie() {
 		this.pacman.reset();
+		for (Ghost ghost : this.ghosts) {
+			ghost.reset();
+		}
 	}
 
 	public void ghostDie(Ghost ghost) {
-		ghost.destroy();
+		ghost.die();
 	}
 
 	public List<Pill> getPills() {
