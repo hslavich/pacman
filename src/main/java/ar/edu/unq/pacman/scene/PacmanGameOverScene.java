@@ -5,15 +5,13 @@ import java.awt.Font;
 import ar.edu.unq.americana.Game;
 import ar.edu.unq.americana.game.events.GameResumeEvent;
 import ar.edu.unq.americana.scenes.menu.MenuGameScene;
-import ar.edu.unq.americana.utils.ResourcesUtils;
+import ar.edu.unq.pacman.PacmanGame;
 
 public class PacmanGameOverScene extends MenuGameScene {
 
 	@Override
 	protected void addButtons(MenuBuilder menuBuilder) {
 		menuBuilder.button("main.play", new GameResumeEvent());
-		// menuBuilder.button("main.exit", new GameCloseEvent());
-
 	}
 
 	@Override
@@ -23,7 +21,7 @@ public class PacmanGameOverScene extends MenuGameScene {
 
 	@Override
 	protected Font font() {
-		return ResourcesUtils.getFont("assets/fonts/Bombardier.ttf", Font.TRUETYPE_FONT, Font.BOLD, 50);
+		return PacmanGame.font;
 	}
 
 	@Override
