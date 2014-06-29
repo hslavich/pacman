@@ -46,14 +46,21 @@ public class Ghost extends Actor {
 
 	@Events.Fired(InverseModeStartEvent.class)
 	protected void inverseModeStart(InverseModeStartEvent event) {
-		this.inverseMode = true;
-		this.setAppearance(SpriteResources.animation("assets/ghost/ghost", "inverse"));
+		this.setInverseMode(true);
 	}
 
 	@Events.Fired(InverseModeFinishEvent.class)
 	protected void inverseModeFinish(InverseModeFinishEvent event) {
-		this.inverseMode = false;
-		this.setDefaultAppearance();
+		this.setInverseMode(false);
+	}
+
+	protected void setInverseMode(boolean inverse) {
+		this.inverseMode = inverse;
+		if (inverse) {
+			this.setAppearance(SpriteResources.animation("assets/ghost/ghost", "inverse"));
+		} else {
+			this.setDefaultAppearance();
+		}
 	}
 
 	@Events.Update
@@ -67,6 +74,7 @@ public class Ghost extends Actor {
 	}
 
 	public void reset() {
+		this.setInverseMode(false);
 		this.resetPosition();
 		this.resetDirection();
 		this.center();

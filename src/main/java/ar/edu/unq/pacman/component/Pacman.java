@@ -63,7 +63,7 @@ public class Pacman extends Actor {
 
 	@Events.ColitionCheck.ForType(collisionStrategy = CollisionStrategy.FromBounds, type = Ghost.class)
 	private void checkPacmanCollision(final Ghost ghost) {
-		if (this.inverseMode) {
+		if (ghost.inverseMode) {
 			this.getScene().ghostDie(ghost);
 		} else {
 			this.getScene().pacmanDie();
