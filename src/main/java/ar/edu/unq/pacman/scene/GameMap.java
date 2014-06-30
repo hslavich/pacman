@@ -47,7 +47,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 
 	private int pacmanInitColumn;
 
-	private Timer timer;
+	private Timer inverseModeTimer;
 
 	@Property("cell.size")
 	public static int CELL_SIZE;
@@ -62,7 +62,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 		this.columns = columns;
 		this.ghosts = new ArrayList<Ghost>();
 		this.pills = new ArrayList<Pill>();
-		this.timer = new Timer(INVERSE_MODE_DURATION, new InverseModeFinishEvent());
+		this.inverseModeTimer = new Timer(INVERSE_MODE_DURATION, new InverseModeFinishEvent());
 		this.initializeTileMap();
 	}
 
@@ -77,7 +77,7 @@ public class GameMap extends GameScene implements ITileMapScene {
 	@Override
 	protected void addGameComponents() {
 		super.addGameComponents();
-		this.addComponent(this.timer);
+		this.addComponent(this.inverseModeTimer);
 
 		this.pacman = new Pacman(this.pacmanInitRow, this.pacmanInitColumn);
 		this.addComponent(this.pacman);
@@ -139,8 +139,8 @@ public class GameMap extends GameScene implements ITileMapScene {
 
 	@Events.Fired(InverseModeStartEvent.class)
 	protected void inverseModeStart(InverseModeStartEvent event) {
-		this.timer.reset();
-		this.timer.start();
+		this.inverseModeTimer.reset();
+		this.inverseModeTimer.start();
 	}
 
 	@Override
@@ -189,6 +189,22 @@ public class GameMap extends GameScene implements ITileMapScene {
 			for (Ghost ghost : this.ghosts) {
 				ghost.reset();
 			}
+		}
+		this.unlock();
+	}
+
+	public void lock() {
+		this.setLock(true);
+	}
+
+	public void unlock() {
+		this.setLock(false);
+	}
+
+	public void setLock(boolean lock) {
+		this.pacman.lock = lock;
+		for (Ghost ghost : this.ghosts) {
+			ghost.lock = lock;
 		}
 	}
 

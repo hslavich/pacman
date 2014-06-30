@@ -21,8 +21,14 @@ public class Pacman extends Actor {
 
 	private boolean inverseMode = false;
 
+	private boolean dying = false;
+
 	public Pacman(int row, int column) {
 		super(row, column);
+		this.setDefaultAppearence();
+	}
+
+	protected void setDefaultAppearence() {
 		this.setAppearance(SpriteResources.sprite("assets/pacman/pacman", "pacman-full"));
 	}
 
@@ -63,10 +69,22 @@ public class Pacman extends Actor {
 
 	@Events.ColitionCheck.ForType(collisionStrategy = CollisionStrategy.FromBounds, type = Ghost.class)
 	private void checkPacmanCollision(final Ghost ghost) {
-		if (ghost.inverseMode) {
-			this.getScene().ghostDie(ghost);
-		} else {
+		if (!this.lock) {
+			if (ghost.inverseMode) {
+				this.getScene().ghostDie(ghost);
+			} else {
+				this.dying = true;
+				this.setAppearance(SpriteResources.animation("assets/pacman/pacman", "pacman-die"));
+				this.getScene().lock();
+			}
+		}
+	}
+
+	@Override
+	public void onAnimationEnd() {
+		if (this.dying) {
 			this.getScene().pacmanDie();
+			this.dying = false;
 		}
 	}
 
@@ -82,6 +100,10 @@ public class Pacman extends Actor {
 
 	@Override
 	public void setDir(double x, double y) {
+		if (this.getDir().getX() == x && this.getDir().getY() == y) {
+			return;
+		}
+
 		if (x == 1) {
 			this.setAppearance(SpriteResources.animation("assets/pacman/pacman", "pacman-right"));
 		} else if (y == 1) {
@@ -100,6 +122,7 @@ public class Pacman extends Actor {
 	}
 
 	public void reset() {
+		this.setDefaultAppearence();
 		this.resetPosition();
 		this.resetDirection();
 		this.center();

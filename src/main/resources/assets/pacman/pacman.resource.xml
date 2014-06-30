@@ -18,7 +18,20 @@
     <animation name="pacman-up" meantime="0.05" width="32" height="32">
         <ref to="pacman-full" />
         <ref to="pacman-up2" />
-<!--         <ref to="pacman-up1" /> -->
+        <ref to="pacman-up1" />
+    </animation>
+    <animation name="pacman-die" meantime="0.10" width="32" height="32">
+        <ref to="pacman-die1" />
+        <ref to="pacman-die2" />
+        <ref to="pacman-die3" />
+        <ref to="pacman-die4" />
+        <ref to="pacman-die5" />
+        <ref to="pacman-die6" />
+        <ref to="pacman-die7" />
+        <ref to="pacman-die8" />
+        <ref to="pacman-die9" />
+        <ref to="pacman-die10" />
+        <ref to="pacman-die11" />
     </animation>
 
 	<sprites img="pacman.png">
@@ -44,10 +57,44 @@
             <crop x="50" y="32" width="14" height="14" />
         </sprite>
         <sprite name="pacman-up1" width="32" height="32">
-            <crop x="49" y="13" width="14" height="14" />
+            <crop x="49" y="14" width="14" height="13" />
         </sprite>
         <sprite name="pacman-up2" width="32" height="32">
-            <crop x="49" y="47" width="14" height="14" />
+            <crop x="49" y="48" width="14" height="13" />
+        </sprite>
+        
+        <sprite name="pacman-die1" width="32" height="32">
+            <crop x="16" y="0" width="15" height="15" />
+        </sprite>
+        <sprite name="pacman-die2" width="32" height="32">
+            <crop x="16" y="15" width="15" height="15" />
+        </sprite>
+        <sprite name="pacman-die3" width="32" height="32">
+            <crop x="16" y="31" width="15" height="15" />
+        </sprite>
+        <sprite name="pacman-die4" width="32" height="32">
+            <crop x="16" y="47" width="15" height="15" />
+        </sprite>
+        <sprite name="pacman-die5" width="32" height="32">
+            <crop x="16" y="63" width="15" height="15" />
+        </sprite>
+        <sprite name="pacman-die6" width="32" height="32">
+            <crop x="33" y="0" width="15" height="13" />
+        </sprite>
+        <sprite name="pacman-die7" width="32" height="32">
+            <crop x="33" y="15" width="15" height="15" />
+        </sprite>
+        <sprite name="pacman-die8" width="32" height="32">
+            <crop x="33" y="31" width="15" height="15" />
+        </sprite>
+        <sprite name="pacman-die9" width="32" height="32">
+            <crop x="33" y="47" width="15" height="15" />
+        </sprite>
+        <sprite name="pacman-die10" width="32" height="32">
+            <crop x="33" y="63" width="15" height="15" />
+        </sprite>
+        <sprite name="pacman-die11" width="32" height="32">
+            <crop x="33" y="79" width="15" height="15" />
         </sprite>
 	</sprites>
 </resource>

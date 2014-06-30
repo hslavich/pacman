@@ -12,10 +12,13 @@ public abstract class Actor extends PositionableComponent<GameMap> {
 
 	protected double offset;
 
+	public boolean lock;
+
 	public Actor(int row, int column) {
 		this.offset = 0;
 		this.dir = new Vector2D(0, 0);
 		this.nextDirection = new Vector2D(0, 0);
+		this.lock = false;
 		this.setRow(row);
 		this.setColumn(column);
 		this.resetPosition(row, column);
@@ -73,9 +76,11 @@ public abstract class Actor extends PositionableComponent<GameMap> {
 	}
 
 	protected void move(double delta) {
-		double distance = this.getSpeed() * delta;
-		this.updateDirection();
-		this.advance(distance);
+		if (!this.lock) {
+			double distance = this.getSpeed() * delta;
+			this.updateDirection();
+			this.advance(distance);
+		}
 	}
 
 	protected abstract double getSpeed();

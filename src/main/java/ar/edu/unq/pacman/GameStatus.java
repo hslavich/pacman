@@ -15,7 +15,7 @@ public class GameStatus {
 
 	public GameStatus() {
 		this.score = new Score<GameMap>(10, PacmanGame.font, Color.GRAY);
-		this.lifeCounter = new LifeCounter<GameMap>(3, SpriteResources.sprite("assets/pacman/pacman", "pacman-right1"));
+		this.lifeCounter = new LifeCounter<GameMap>(3, SpriteResources.sprite("assets/pacman/pacman", "pacman-right2"));
 	}
 
 	public Score<GameMap> getScore() {
